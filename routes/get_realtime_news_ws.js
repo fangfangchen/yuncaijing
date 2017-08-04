@@ -33,7 +33,9 @@ module.exports = function (app) {
       console.log(chalk.green('receive message ws9503: '), msg);
       if (ws9503Conection) {
         console.log(chalk.green('send message ws9503: '), msg);
-        ws9503Conection.sendUTF(msg);
+        if (ws9503Conection.readyState === ws9503Conection.OPEN) {
+          ws9503Conection.sendUTF(msg);
+        }
       }
       console.log();
     });
@@ -58,7 +60,9 @@ module.exports = function (app) {
       console.log(chalk.green('receive message ws9507: '), msg);
       if (ws9507Conection) {
         console.log(chalk.green('send message ws9507: '), msg);
-        ws9507Conection.sendUTF(msg);
+        if (ws9507Conection.readyState === ws9507Conection.OPEN) {
+          ws9507Conection.sendUTF(msg);
+        }
       }
       console.log();
     });
