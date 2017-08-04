@@ -16,6 +16,6 @@ const server = app.listen(3000, function () {
   const host = server.address().address;
   const port = server.address().port;
   console.log();
-  console.log(chalk.green('listening at http://%s:%s'), host, port);
+  console.log(chalk.green(`listening at http://${host}:${port}`), server.address());
   console.log();
 });
