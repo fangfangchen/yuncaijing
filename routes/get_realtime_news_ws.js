@@ -73,7 +73,7 @@ module.exports = function (app) {
 
       connection.on('error', function (error) {
         console.log(chalk.red(`remote Connection Error ${type}: `), error.toString());
-        connect(type, callback, message);
+        connectRemoveWs(type, callback, message);
       });
       connection.on('close', function (error) {
         console.log(chalk.red(`remote echo-protocol Connection Closed ${type}: `), error.toString());
