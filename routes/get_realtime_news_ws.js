@@ -57,7 +57,9 @@ module.exports = function (app) {
     });
     ws.on('close', function (msg) {
       console.log('close', type);
-      connection.close();
+      if (connection) {
+        connection.close();
+      }
     });
   }
 
