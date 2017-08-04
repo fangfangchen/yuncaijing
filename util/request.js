@@ -1,5 +1,6 @@
 const request = require('request');
 const chalk = require('chalk');
+const moment = require('moment');
 const Promise = require('promise');
 const BufferHelper = require('bufferhelper');
 const iconv = require('iconv-lite');
@@ -17,7 +18,7 @@ module.exports = {
 // 重写console.log
 const log = console.log;
 console.log = function(...args){
-  args.unshift(chalk.yellow(`[${new Date()}]`));
+  args.unshift(chalk.yellow(`[${moment().format('YYYY-MM-DD HH:mm:ss')}]`));
   log.apply(this, args);
 }
 
