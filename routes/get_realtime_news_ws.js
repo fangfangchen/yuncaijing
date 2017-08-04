@@ -34,33 +34,41 @@ module.exports = function (app) {
     });
     ws.on('error', function (msg) {
       console.log(chalk.green(`error ${type}: `), msg);
-      if (connection) {
-        connection.close();
-      }
+      doCloseRemove();
     });
     ws.on('message', function (msg) {
       console.log(chalk.green(`receive message ${type}: `), msg);
-      doSend();
-
-      function doSend() {
-        if (connection) {
-          console.log(chalk.green(`send message ${type}: `), msg);
-          if (connection.readyState === connection.OPEN) {
-            connection.sendUTF(msg);
-          }
-        } else {
-          setTimeout(doSend, 300);
-        }
-      }
+      doSend(msg);
 
       console.log();
     });
     ws.on('close', function (msg) {
       console.log('close', type);
+      doCloseRemove();
+    });
+
+    function doSend(msg) {
+      if (connection) {
+        console.log(chalk.green(`send message ${type}: `), msg);
+        if (connection.readyState === connection.OPEN) {
+          connection.sendUTF(msg);
+        }
+      } else {
+        setTimeout(() => {
+          doSend(msg);
+        }, 300);
+      }
+    }
+
+    function doCloseRemove() {
       if (connection) {
         connection.close();
+      } else {
+        setTimeout(() => {
+          doCloseRemove();
+        }, 300);
       }
-    });
+    }
   }
 
   function connectRemoveWs(type, callback, message) {
