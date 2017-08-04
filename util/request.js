@@ -14,6 +14,13 @@ module.exports = {
   error,
 }
 
+// 重写console.log
+const log = console.log;
+console.log = function(...args){
+  args.unshift(chalk.yellow(`[${new Date()}]`));
+  log.apply(this, args);
+}
+
 function success(response, data) {
   const defaultData = {
     success: true,
