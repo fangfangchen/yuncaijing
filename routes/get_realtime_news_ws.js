@@ -74,13 +74,14 @@ module.exports = function (app) {
       console.log(chalk.red('echo-protocol Connection Closed ws9503: '), error.toString());
     });
     connection.on('message', function (event) {
-      console.log(chalk.green('message ws9503 from remove'));
+      console.log(chalk.green('message ws9503 from remote'));
       console.log();
 
       for (const ws in ws9503Arr) {
         if (ws9503Arr[ws].readyState === ws9503Arr[ws].OPEN) {
           ws9503Arr[ws].send(event.utf8Data);
         } else {
+          ws9503Arr[ws].close();
           delete ws9503Arr[ws];
         }
       }
@@ -104,13 +105,14 @@ module.exports = function (app) {
       console.log(chalk.red('echo-protocol Connection Closed ws9507: '), error.toString());
     });
     connection.on('message', function (event) {
-      console.log(chalk.green('message ws9507 from remove'));
+      console.log(chalk.green('message ws9507 from remote'));
       console.log();
 
       for (const ws in ws9507Arr) {
         if (ws9507Arr[ws].readyState === ws9507Arr[ws].OPEN) {
           ws9507Arr[ws].send(event.utf8Data);
         } else {
+          ws9507Arr[ws].close();
           delete ws9507Arr[ws];
         }
       }
