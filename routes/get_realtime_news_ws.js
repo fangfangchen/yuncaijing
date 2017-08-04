@@ -34,7 +34,9 @@ module.exports = function (app) {
     });
     ws.on('error', function (msg) {
       console.log(chalk.green(`error ${type}: `), msg);
-      connection.close();
+      if (connection) {
+        connection.close();
+      }
     });
     ws.on('message', function (msg) {
       console.log(chalk.green(`receive message ${type}: `), msg);
