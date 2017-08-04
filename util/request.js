@@ -20,6 +20,7 @@ const log = console.log;
 console.log = function(...args){
   args.unshift(chalk.yellow(`[${moment().format('YYYY-MM-DD HH:mm:ss')}]`));
   log.apply(this, args);
+  log('------------------------------------------------------------------------------');
 }
 
 function success(response, data) {
