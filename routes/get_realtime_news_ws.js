@@ -85,6 +85,7 @@ module.exports = function (app) {
       console.log(chalk.green('WebSocket Client Connected ws9503'));
 
       connection.on('error', function (error) {
+        connectWs9503.close();
         console.log(chalk.red('Connection Error ws9503: '), error.toString());
       });
       connection.on('close', function (error) {
@@ -120,6 +121,7 @@ module.exports = function (app) {
       console.log(chalk.green('WebSocket Client Connected ws9507'));
 
       connection.on('error', function (error) {
+        connectWs9507.close();
         console.log(chalk.red('Connection Error ws9507: '), error.toString());
       });
       connection.on('close', function (error) {
