@@ -23,6 +23,12 @@ module.exports = function (app) {
     const uuid = uuidv4();
     ws9503Arr[uuid] = ws;
 
+    ws.on('open', function (msg) {
+      console.log(chalk.green('open ws9503: '), msg);
+    });
+    ws.on('error', function (msg) {
+      console.log(chalk.green('error ws9503: '), msg);
+    });
     ws.on('message', function (msg) {
       console.log(chalk.green('receive message ws9503: '), msg);
       if (ws9503Conection) {
@@ -31,8 +37,8 @@ module.exports = function (app) {
       }
       console.log();
     });
-    ws.on('closed', function (msg) {
-      console.log('closed', 'ws9503');
+    ws.on('close', function (msg) {
+      console.log('close', 'ws9503');
       delete ws9503Arr[uuid];
     });
   });
@@ -42,6 +48,12 @@ module.exports = function (app) {
     const uuid = uuidv4();
     ws9507Arr[uuid] = ws;
 
+    ws.on('open', function (msg) {
+      console.log(chalk.green('open ws9507: '), msg);
+    });
+    ws.on('error', function (msg) {
+      console.log(chalk.green('error ws9507: '), msg);
+    });
     ws.on('message', function (msg) {
       console.log(chalk.green('receive message ws9507: '), msg);
       if (ws9507Conection) {
@@ -50,8 +62,8 @@ module.exports = function (app) {
       }
       console.log();
     });
-    ws.on('closed', function (msg) {
-      console.log('closed', 'ws9507');
+    ws.on('close', function (msg) {
+      console.log('close', 'ws9507');
       delete ws9507Arr[uuid];
     });
   });
