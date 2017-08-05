@@ -6,7 +6,7 @@ socket9503.addEventListener('open', function (event) {
   socket9503.send('{"type":"login","data":{"room":1,"clientid":""}}');
   setInterval(() => {
     socket9503.send('{"type":"ping","data":"ping"}')
-  }, 3000);
+  }, 60000);
 });
 
 // Listen for messages
