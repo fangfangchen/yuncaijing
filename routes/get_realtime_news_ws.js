@@ -19,15 +19,7 @@ module.exports = function (app) {
   function doConnect(type, ws) {
     let connection = null;
 
-    connectRemoveWs(type, function (c) {
-      connection = c;
-    }, function (data) {
-      if (ws.readyState === ws.OPEN) {
-        ws.send(data);
-      } else {
-        ws.close();
-      }
-    });
+    connectRemove();
 
     ws.on('open', function (msg) {
       console.log(chalk.green(`open ${type}: `), msg);
@@ -47,6 +39,20 @@ module.exports = function (app) {
       doCloseRemove();
     });
 
+    function connectRemove() {
+      connectRemoveWs(type, function (c) {
+        connection = c;
+      }, function (data) {
+        if (ws.readyState === ws.OPEN) {
+          ws.send(data);
+        } else {
+          ws.close();
+        }
+      }, null, function () {
+        connectRemove();
+      });
+    }
+
     function doSend(msg) {
       if (connection) {
         console.log(chalk.green(`send message ${type}: `), msg);
@@ -56,7 +62,7 @@ module.exports = function (app) {
       } else {
         setTimeout(() => {
           doSend(msg);
-        }, 300);
+        }, 1000);
       }
     }
 
@@ -66,12 +72,12 @@ module.exports = function (app) {
       } else {
         setTimeout(() => {
           doCloseRemove();
-        }, 300);
+        }, 1000);
       }
     }
   }
 
-  function connectRemoveWs(type, callback, message) {
+  function connectRemoveWs(type, callback, message, close, error) {
     const ws = new WebSocket();
     ws.connect(config.urls[type], undefined, headers.Origin, headers);
     ws.on('connectFailed', function (error) {
@@ -79,22 +85,23 @@ module.exports = function (app) {
     });
 
     ws.on('connect', function (connection) {
-      callback(connection);
+      typeof callback === 'function' && callback(connection);
 
       console.log(chalk.green(`remote WebSocket Client Connected ${type}`));
 
       connection.on('error', function (error) {
         console.log(chalk.red(`remote Connection Error ${type}: `), error.toString());
-        connectRemoveWs(type, callback, message);
+        typeof error === 'function' && error();
       });
       connection.on('close', function (error) {
         console.log(chalk.red(`remote echo-protocol Connection Closed ${type}: `), error.toString());
+        typeof close === 'function' && close();
       });
       connection.on('message', function (event) {
         console.log();
         console.log(chalk.green(`remote message ${type} from`));
         console.log();
-        message(event.utf8Data);
+        typeof message === 'function' && message(event.utf8Data);
       });
     });
   }
