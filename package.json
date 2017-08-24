@@ -1,7 +1,6 @@
 {
   "name": "yuncaijing",
   "version": "0.0.1",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "node-dev index.js",
@@ -22,5 +21,15 @@
     "request-promise": "4.2.1",
     "uuid": "3.1.0",
     "websocket": "1.0.24"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://youpinyao@github.com/youpinyao/yuncaijing.git"
+  },
+  "bugs": {
+    "url": "https://github.com/youpinyao/yuncaijing/issues"
+  },
+  "homepage": "https://github.com/youpinyao/yuncaijing#readme",
+  "description": ""
 }
